@@ -61,6 +61,8 @@ Les différentes tables utilisées dans les bases de données sont :
 ---
 ## Cas d'utilisation :
 ### Client :
+- Un client peut se créer un compte
+- Un client peut modifier les informations de son profil
 - Un client peut se connecter
 - Un client peut se déconnecter
 - Un client peut consulter un produit du catalogue
@@ -92,6 +94,7 @@ Les différentes tables utilisées dans les bases de données sont :
 - Un gestionnaire peut modifier le statut d'une commande (en cours → expédiée)
 - Un gestionnaire peut annuler une commande
 - Un gestionnaire peut consulter l'historique de toutes les commandes
+- Un gestionnaire peut passer une commande en créant un bon de commande composé d'un unique fournisseur et un unique produit avec une quantité
 - _(**Optionnel**)_ Un gestionnaire peut créer une carte cadeau
 - _(**Optionnel**)_ Un gestionnaire peut supprimer une carte cadeau
 - _(**Optionnel**)_ Un gestionnaire peut modifier une carte cadeau
