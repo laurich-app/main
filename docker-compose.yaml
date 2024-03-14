@@ -27,10 +27,12 @@ services:
       - POSTGRES_URL=jdbc:postgresql://postgres-utilisateur:5432/service-utilisateur
       - POSTGRES_USER=user
       - POSTGRES_PSWD=pswd
+      - RABBIT_HOST=rabbit
     depends_on:
       - serveur-conf
       - discovery
       - postgres-utilisateur
+      - rabbit
     restart: always
 
   mongo-commande:
@@ -46,10 +48,14 @@ services:
       - URL_CONFIG_SERVEUR=http://serveur-conf:8888
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+      - MONGO_URL=mongodb://user:pswd@mongo-commande:27017/
+      - MONGO_DATABASE=commande
+      - RABBIT_HOST=rabbit
     depends_on:
       - serveur-conf
       - discovery
       - mongo-commande
+      - rabbit
     restart: always
 
   postgres-produits:
@@ -65,10 +71,15 @@ services:
       - URL_CONFIG_SERVEUR=http://serveur-conf:8888
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+      - POSTGRES_URL=jdbc:postgresql://postgres-produits:5432/service-produits
+      - POSTGRES_USER=user
+      - POSTGRES_PSWD=pswd
+      - RABBIT_HOST=rabbit
     depends_on:
       - serveur-conf
       - discovery
       - postgres-produits
+      - rabbit
     restart: always
 
   service-notification:
@@ -80,37 +91,28 @@ services:
     depends_on:
       - serveur-conf
       - discovery
+      - rabbit
     restart: always
 
-  mongo-reapprovisionnement:
+  service-reapprovisionnement:
+    container_name: service-reappro
+    image: ghcr.io/laurich-app/service-reapprovisionnement:latest
+    environment:
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+      - MONGO_URL=mongodb://user:pswd@mongo-reappro:27017/
+      - MONGO_DATABASE=reappro
+      - RABBIT_HOST=rabbit
+    depends_on:
+      - discovery
+      - mongo-reappro
+      - rabbit
+
+  mongo-reappro:
     image: mongo:7.0.5
     environment:
-      - MONGO_INITDB_DATABASE=service-reapprovisionnement
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=pswd
-
-  # service-reapprovisionnement:
-  #   image: ghcr.io/laurich-app/service-reapprovisionnement:latest
-  #   environment:
-  #     - URL_CONFIG_SERVEUR=http://serveur-conf:8888
-  #     - CONSUL_HOST=discovery
-  #     - CONSUL_PORT=8500
-  #   depends_on:
-  #     - serveur-conf
-  #     - discovery
-  #     - mongo-reapprovisionnement
-  #    restart: always
-
-  # esb:
-  #   image: ghcr.io/laurich-app/esb:latest
-  #   environment:
-  #     - URL_CONFIG_SERVEUR=http://serveur-conf:8888
-  #     - CONSUL_HOST=discovery
-  #     - CONSUL_PORT=8500
-  #   depends_on:
-  #     - serveur-conf
-  #     - discovery
-  #   restart: always
 
   client:
     image: ghcr.io/laurich-app/client:latest
@@ -123,3 +125,6 @@ services:
       - CLIENT_URL=http://client
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+
+  rabbit:
+    image: rabbitmq:3.12.13-management
