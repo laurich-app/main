@@ -107,6 +107,7 @@ services:
       - discovery
       - mongo-reappro
       - rabbit
+    restart: always
 
   mongo-reappro:
     image: mongo:7.0.5

@@ -1,11 +1,21 @@
+# Init
+
+Pour démarrer le PC, vous pouvez simplement faire la commande suivante : ./init.sh
+
+Celui-ci vous connecteras avec une clé permettant seulement de download les images du registre du projet, et démarreras ensuite les docker compose.
+
 # Projet : site de vente de vêtements
 
 ---
+
 ## Présentation du sujet :
+
 Développement d'une application architecturée en micro-services d'un site de vente de vêtements, appelée Laurich'App.
 
 ---
+
 ## Micro-services :
+
 L'application se décompose en 5 micro-services obligatoires et 2 optionnels :
 
 1. **Obligatoires** :
@@ -19,14 +29,20 @@ L'application se décompose en 5 micro-services obligatoires et 2 optionnels :
    - Service de gestion de paiement
 
 ---
+
 ## Acteurs :
+
 Les acteurs principaux sont :
+
 - Client
 - Gestionnaire
 
 ---
+
 ## Tables des BDD :
+
 Les différentes tables utilisées dans les bases de données sont :
+
 1. BDD **Notification** :
    - _A COMPLETER_
 2. BDD **Authentification** :
@@ -49,6 +65,7 @@ Les différentes tables utilisées dans les bases de données sont :
 7. _(**Optionnel**)_ BDD **Gestion_Paiements**
 
 ## Liens :
+
 - Un utilisateur a un ou plusieurs roles
 - Un produit_commande a une catégorie
 - Un produit_commande a une unique couleur
@@ -59,8 +76,11 @@ Les différentes tables utilisées dans les bases de données sont :
 - Une commande est un panier validé et est donc composé d'un ou plusieurs produit_commande
 
 ---
+
 ## Cas d'utilisation :
+
 ### Client :
+
 - Un client peut se créer un compte
 - Un client peut modifier les informations de son profil
 - Un client peut se connecter
@@ -81,6 +101,7 @@ Les différentes tables utilisées dans les bases de données sont :
 - _(**Optionnel**)_ Un client peut acheter une carte cadeau
 
 ### Gestionnaire :
+
 - Un gestionnaire peut se connecter
 - Un gestionnaire peut se déconnecter
 - Un gestionnaire peut ajouter un nouveau produit au catalogue
@@ -101,13 +122,19 @@ Les différentes tables utilisées dans les bases de données sont :
 - _(**Optionnel**)_ Un gestionnaire peut gérer les moyens de paiement
 
 ---
+
 ## Notification :
+
 - _A COMPLETER_
 
 ---
+
 ## Diagramme de séquence :
+
 ### Client
+
 #### Consulter un produit :
+
 ```
 title Client consulter un produit
 
@@ -115,9 +142,11 @@ Client->Produits:GET /produits/${id}
 Produits->Produits BDD: Récupérer le produit
 Produits->Client: 200 : le produit récupéré
 ```
+
 <img src="ressources/ClientConsulterProduit.png"/>
 
 ### Admin
+
 #### Supprimer un produit :
 
 ```
@@ -133,4 +162,5 @@ Commandes->ESB: Confirme la suppression
 Clients->Commandes: Consulte son panier
 Commandes->Clients: Met à jours le panier avec les produits supprimés
 ```
+
 <img src="ressources/AdminSupprimerProduit.png"/>
