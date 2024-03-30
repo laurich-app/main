@@ -88,6 +88,8 @@ services:
       - URL_CONFIG_SERVEUR=http://serveur-conf:8888
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+      - CLIENT_URL=http://localhost:8080
+      - RABBIT_HOST=rabbit
     depends_on:
       - serveur-conf
       - discovery
