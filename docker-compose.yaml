@@ -52,6 +52,11 @@ services:
       rabbit:
         condition: service_healthy
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   mongo-commande:
     image: mongo:7.0.5
@@ -83,6 +88,11 @@ services:
       rabbit:
         condition: service_healthy
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   postgres-produits:
     image: postgres:12.17
@@ -115,6 +125,11 @@ services:
       rabbit:
         condition: service_healthy
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   service-notification:
     image: ghcr.io/laurich-app/service-notification:latest
@@ -132,6 +147,11 @@ services:
       rabbit:
         condition: service_healthy
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   service-reapprovisionnement:
     container_name: service-reappro
@@ -150,6 +170,11 @@ services:
       rabbit:
         condition: service_healthy
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   mongo-reappro:
     image: mongo:7.0.5
@@ -164,6 +189,11 @@ services:
 
   client:
     image: ghcr.io/laurich-app/client:latest
+    healthcheck:
+      test: curl -f http://localhost
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   service-passerelle:
     image: ghcr.io/laurich-app/service-passerelle:latest
@@ -173,6 +203,11 @@ services:
       - CLIENT_URL=http://client
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   rabbit:
     image: rabbitmq:3.12.13-alpine

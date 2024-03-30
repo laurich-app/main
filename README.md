@@ -4,6 +4,19 @@ Pour démarrer le PC, vous pouvez simplement faire la commande suivante : ./init
 
 Celui-ci vous connecteras avec une clé permettant seulement de download les images du registre du projet, et démarreras ensuite les docker compose.
 
+Le projet est disponible à l'URL http://localhost:8080.
+
+Le projet est entièrement démarrer lorsque tous les services sont référencer sur consul.
+
+Les services sont :
+
+- reapprovisionnement
+- passerelle
+- notification
+- utilisateur
+- commande
+- catalogue
+
 # Projet : site de vente de vêtements
 
 ---
