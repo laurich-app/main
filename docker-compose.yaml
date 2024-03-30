@@ -4,9 +4,19 @@ services:
     image: consul:1.15
     ports:
       - 8500:8500
+    healthcheck:
+      test: curl -f http://localhost:8500/v1/status/leader
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   serveur-conf:
     image: ghcr.io/laurich-app/serveur-conf:latest
+    healthcheck:
+      test: curl -f http://localhost:8888/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   postgres-utilisateur:
     image: postgres:12.17
@@ -14,6 +24,10 @@ services:
       - POSTGRES_DB=service-utilisateur
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pswd
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 10s
 
   service-utilisateur:
     image: ghcr.io/laurich-app/service-utilisateur:latest
@@ -29,10 +43,14 @@ services:
       - POSTGRES_PSWD=pswd
       - RABBIT_HOST=rabbit
     depends_on:
-      - serveur-conf
-      - discovery
-      - postgres-utilisateur
-      - rabbit
+      serveur-conf:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      postgres-utilisateur:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     restart: always
 
   mongo-commande:
@@ -41,6 +59,10 @@ services:
       - MONGO_INITDB_DATABASE=service-commande
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=pswd
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --username user --password pswd --authenticationDatabase admin --eval
+      interval: 10s
+      timeout: 10s
 
   service-commande:
     image: ghcr.io/laurich-app/service-commandes:latest
@@ -52,10 +74,14 @@ services:
       - MONGO_DATABASE=commande
       - RABBIT_HOST=rabbit
     depends_on:
-      - serveur-conf
-      - discovery
-      - mongo-commande
-      - rabbit
+      serveur-conf:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      mongo-commande:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     restart: always
 
   postgres-produits:
@@ -64,6 +90,10 @@ services:
       - POSTGRES_DB=service-produits
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pswd
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 10s
 
   service-produits:
     image: ghcr.io/laurich-app/service-produits:latest
@@ -76,10 +106,14 @@ services:
       - POSTGRES_PSWD=pswd
       - RABBIT_HOST=rabbit
     depends_on:
-      - serveur-conf
-      - discovery
-      - postgres-produits
-      - rabbit
+      serveur-conf:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      postgres-produits:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     restart: always
 
   service-notification:
@@ -91,9 +125,12 @@ services:
       - CLIENT_URL=http://localhost:8080
       - RABBIT_HOST=rabbit
     depends_on:
-      - serveur-conf
-      - discovery
-      - rabbit
+      serveur-conf:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     restart: always
 
   service-reapprovisionnement:
@@ -106,16 +143,24 @@ services:
       - MONGO_DATABASE=reappro
       - RABBIT_HOST=rabbit
     depends_on:
-      - discovery
-      - mongo-reappro
-      - rabbit
+      discovery:
+        condition: service_healthy
+      mongo-reappro:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
     restart: always
 
   mongo-reappro:
     image: mongo:7.0.5
     environment:
+      - MONGO_INITDB_DATABASE=reappro
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=pswd
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --username user --password pswd --authenticationDatabase admin --eval
+      interval: 10s
+      timeout: 10s
 
   client:
     image: ghcr.io/laurich-app/client:latest
@@ -130,4 +175,8 @@ services:
       - CONSUL_PORT=8500
 
   rabbit:
-    image: rabbitmq:3.12.13-management
+    image: rabbitmq:3.12.13-alpine
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
