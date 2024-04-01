@@ -1,4 +1,9 @@
 version: "3.9"
+
+networks:
+  default:
+    name: laurichapp_networks
+
 services:
   discovery:
     image: consul:1.15
@@ -24,6 +29,7 @@ services:
       - POSTGRES_DB=service-utilisateur
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pswd
+      - HIBERNATE_MIGRATION=update
     healthcheck:
       test: /usr/bin/pg_isready
       interval: 5s
@@ -100,6 +106,7 @@ services:
       - POSTGRES_DB=service-produits
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pswd
+      - HIBERNATE_MIGRATION=update
     healthcheck:
       test: /usr/bin/pg_isready
       interval: 5s

@@ -17,6 +17,22 @@ Les services sont :
 - commande
 - catalogue
 
+Un Karate est disponible contenant les deux scénarios les plus important de notre application : réapprovisionner le stock et valider une commande. Chacun d'entre eux est décris dans la classe de test associé.
+
+Lorsque l'on créer un produit, on n'enregistre pas de stock par défaut mais on génère une demande de réapprovisionnement automatiquement. Une fois le bon de commande livré, le gestionnaire indique que le bon de commande a été livré ce qui incrémente le stock correspondant. Nous possédons un stock de produit par couleur (chaque couleur à un stock spécifique).
+
+Un utilisateur peut ensuite ajouter dans son panier des produits possédant un stock non vide. Il peut ensuite valider son panier, ce qui décrémente le stock correspondant, et ajoute une nouvelle demande de réapprovisionnement.
+
+Il y'a également un service de notification, qui envoie un mail à l'utilisateur ayant passé commande, et lors de son inscription. Afin de tester cette partie, nous vous proposons d'utiliser le client.
+
+Vous pouvez, soit run le test via Java, soit utilisé le script shell `run_karate.sh` qui exécutera une image Docker avec le script Karate et enregistrera le résultat dans un fichier `result_test.txt`.
+
+Tel que :
+
+```sh
+./run_karate.sh
+```
+
 # Projet : site de vente de vêtements
 
 ---
