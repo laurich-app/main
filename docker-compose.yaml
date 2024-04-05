@@ -93,6 +93,8 @@ services:
         condition: service_healthy
       rabbit:
         condition: service_healthy
+      service-utilisateur:
+        condition: service_healthy
     restart: always
     healthcheck:
       test: curl -f http://localhost:8080/actuator/health
@@ -131,6 +133,8 @@ services:
         condition: service_healthy
       rabbit:
         condition: service_healthy
+      service-utilisateur:
+        condition: service_healthy
     restart: always
     healthcheck:
       test: curl -f http://localhost:8080/actuator/health
@@ -152,6 +156,8 @@ services:
       discovery:
         condition: service_healthy
       rabbit:
+        condition: service_healthy
+      service-utilisateur:
         condition: service_healthy
     restart: always
     healthcheck:
@@ -175,6 +181,8 @@ services:
       mongo-reappro:
         condition: service_healthy
       rabbit:
+        condition: service_healthy
+      service-utilisateur:
         condition: service_healthy
     restart: always
     healthcheck:
