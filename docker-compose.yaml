@@ -48,6 +48,7 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PSWD=pswd
       - RABBIT_HOST=rabbit
+      - HIBERNATE_MIGRATION=update
     depends_on:
       serveur-conf:
         condition: service_healthy
@@ -108,7 +109,6 @@ services:
       - POSTGRES_DB=service-produits
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pswd
-      - HIBERNATE_MIGRATION=update
     healthcheck:
       test: /usr/bin/pg_isready
       interval: 5s
@@ -124,6 +124,7 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PSWD=pswd
       - RABBIT_HOST=rabbit
+      - HIBERNATE_MIGRATION=update
     depends_on:
       serveur-conf:
         condition: service_healthy
@@ -225,7 +226,12 @@ services:
       retries: 5
 
   rabbit:
-    image: rabbitmq:3.12.13-alpine
+    build: ./rabbitmq
+    environment:
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
