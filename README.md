@@ -8,14 +8,19 @@ Le projet est disponible à l'URL http://localhost:8080.
 
 Le projet est entièrement démarrer lorsque tous les services sont référencer sur consul.
 
+Il y'a 9 services.
+
 Les services sont :
 
+- consul
 - reapprovisionnement
 - passerelle
 - notification
 - utilisateur
 - commande
 - catalogue
+- service-configuration
+- rabbitmq
 
 Un Karate est disponible contenant les deux scénarios les plus important de notre application : réapprovisionner le stock et valider une commande. Chacun d'entre eux est décris dans la classe de test associé.
 
