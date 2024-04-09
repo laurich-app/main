@@ -15,7 +15,7 @@ PREVIOUS_RESTART_COUNT=$(docker inspect --format='{{.RestartCount}}' "$SERVICE_N
 SOMMEIL="15"
 
 # Tableau contenant les noms de plusieurs services à surveiller
-SERVICES=("service-commande" "service-reappro" "service-produits", "service-notification")
+SERVICES=("service-commande" "service-reappro" "service-produits" "service-notification")
 
 # Fonction pour redémarrer tous les services un à un
 restart_services() {
