@@ -31,6 +31,10 @@ services:
       discovery:
         condition: service_healthy
 
+  # ===========================
+  #         Utilisateur
+  # ===========================
+
   postgres-utilisateur:
     image: postgres:12.17
     environment:
@@ -73,6 +77,10 @@ services:
       timeout: 10s
       retries: 5
 
+  # ===========================
+  #          Commande
+  # ===========================
+
   mongo-commande:
     image: mongo:7.0.5
     environment:
@@ -111,6 +119,10 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+  # ===========================
+  #          Produits
+  # ===========================
 
   postgres-produits:
     image: postgres:12.17
@@ -153,6 +165,10 @@ services:
       timeout: 10s
       retries: 5
 
+  # ===========================
+  #        Notification
+  # ===========================
+
   service-notification:
     image: ghcr.io/laurich-app/service-notification:latest
     container_name: service-notification
@@ -160,6 +176,7 @@ services:
       - URL_CONFIG_SERVEUR=http://serveur-conf:8888
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+      - MONGO_URL=mongodb://user:pswd@mongo-notification:27017/
       - CLIENT_URL=http://localhost:8080
       - RABBIT_HOST=rabbit
     depends_on:
@@ -171,12 +188,29 @@ services:
         condition: service_healthy
       service-utilisateur:
         condition: service_healthy
+      mongo-notification:
+        condition: service_healthy
     restart: always
     healthcheck:
       test: curl -f http://localhost:8080/actuator/health
       interval: 10s
       timeout: 10s
       retries: 5
+
+  mongo-notification:
+    image: mongo:7.0.5
+    environment:
+      - MONGO_INITDB_DATABASE=notification
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pswd
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --username user --password pswd --authenticationDatabase admin --eval
+      interval: 10s
+      timeout: 10s
+
+  # ===========================
+  #     Reapprovisionnement
+  # ===========================
 
   service-reapprovisionnement:
     container_name: service-reappro
@@ -214,6 +248,10 @@ services:
       interval: 10s
       timeout: 10s
 
+  # ===========================
+  #          Client
+  # ===========================
+
   client:
     image: ghcr.io/laurich-app/client:latest
     restart: always
@@ -222,6 +260,10 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+  # ===========================
+  #          Gateway
+  # ===========================
 
   service-passerelle:
     image: ghcr.io/laurich-app/service-passerelle:latest
@@ -237,6 +279,10 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+  # ===========================
+  #         RabbitMQ
+  # ===========================
 
   rabbit:
     build: ./rabbitmq
