@@ -177,6 +177,7 @@ services:
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
       - MONGO_URL=mongodb://user:pswd@mongo-notification:27017/
+      - MONGO_DATABASE=notification
       - CLIENT_URL=http://localhost:8080
       - RABBIT_HOST=rabbit
     depends_on:
