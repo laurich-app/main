@@ -297,3 +297,6 @@ services:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
       timeout: 10s
+    depends_on:
+      discovery:
+        condition: service_healthy
