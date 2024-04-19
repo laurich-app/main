@@ -233,7 +233,7 @@ services:
         condition: service_healthy
     restart: always
     healthcheck:
-      test: curl -f http://localhost:8080/actuator/health
+      test: apt update -y && apt install -y curl && curl -f http://localhost:5200/health
       interval: 10s
       timeout: 10s
       retries: 5
