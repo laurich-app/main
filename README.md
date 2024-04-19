@@ -30,6 +30,11 @@ Un utilisateur peut ensuite ajouter dans son panier des produits possédant un s
 
 Il y'a également un service de notification, qui envoie un mail à l'utilisateur ayant passé commande, et lors de son inscription. Afin de tester cette partie, nous vous proposons d'utiliser le client.
 
+Il y'a un compte gestionnaire afin de rajouter des produits, des catégories, etc... : 
+
+email : root@root.com
+password : root
+
 Vous pouvez, soit run le test via Java, soit utilisé le script shell `run_karate.sh` qui exécutera une image Docker avec le script Karate et enregistrera le résultat dans un fichier `result_test.txt`.
 
 Tel que :
