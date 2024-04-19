@@ -37,6 +37,7 @@ Tel que :
 ```sh
 ./run_karate.sh
 ```
+Le dossier karate-test-result contient un fichier karate-summary.html que vous pouvez consulter en ligne.
 
 # Projet : site de vente de vêtements
 
