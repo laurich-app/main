@@ -32,8 +32,8 @@ Il y'a également un service de notification, qui envoie un mail à l'utilisateu
 
 Il y'a un compte gestionnaire afin de rajouter des produits, des catégories, etc... : 
 
-email : root@root.com
-password : root
+- email : root@root.com
+- password : root
 
 Vous pouvez, soit run le test via Java, soit utilisé le script shell `run_karate.sh` qui exécutera une image Docker avec le script Karate et enregistrera le résultat dans un fichier `result_test.txt`.
 
