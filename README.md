@@ -1,6 +1,27 @@
-# Init
+# Projet Laurich'App
 
-Pour démarrer le PC, vous pouvez simplement faire la commande suivante : ./init.sh
+### Fait par le groupe 1 :
+-	Justin LECAS : N° 2197502
+-	Loic MALON : N° 2198645
+-	Lauriche  TSONGOUANG SONGFACK : N° 2145372
+-	Soumia DELMI : N° 2182576
+-	Nadir SAIAH : N° 2164158
+
+### Année : Master 2 MIAGE - 2024
+------------
+
+Mise en place de l'environnement de travail :
+----------------
+
+**1-** On lance tout d'abord l'application **Docker Desktop** :
+
+Lien de téléchargement : [ici](https://www.docker.com/products/docker-desktop/)
+
+**2-** On démarre nos conteneurs docker
+Il suffit d'executer le script bash init.sh
+```
+./init.sh
+```
 
 Celui-ci vous connecteras avec une clé permettant seulement de download les images du registre du projet, et démarreras ensuite les docker compose.
 
